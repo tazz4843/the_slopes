@@ -8,3 +8,5 @@ edition = "2018"
 [dependencies]
 raylib = "3.5"
 num_cpus = "1.13"
+rayon = "1.5"
+smallvec = "1.6"

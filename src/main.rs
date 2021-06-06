@@ -1,3 +1,5 @@
+use the_slopes::entrypoint::entrypoint;
+
 fn main() {
-    println!("Hello, world!");
+    entrypoint();
 }
