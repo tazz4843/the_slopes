@@ -4,5 +4,5 @@ pub enum Mood {
     Unhappy,
     Neutral,
     Happy,
-    VeryHappy
+    VeryHappy,
 }
