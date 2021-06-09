@@ -3,7 +3,7 @@ use crate::world::Node;
 /// Given a arbitrary node, returns all siblings of that node.
 /// # Returns
 /// A vector of all siblings. This could be a empty vector if the node has no siblings.
-pub fn [;get_siblings(n: &Node) -> Vec<(Node, u64)> {
+pub fn get_siblings(n: &Node) -> Vec<(Node, u64)> {
     n.siblings().iter().map(|sibling| {
         let pos = sibling.position();
         (Node::new(pos.x, pos.y, pos.z, Some(sibling.cost())), sibling.cost())
