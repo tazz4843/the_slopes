@@ -1,9 +1,9 @@
 use raylib::math::Vector3;
 use std::cmp::Ordering;
+use std::collections::HashSet;
 use std::hash::{Hash, Hasher};
 use std::sync::atomic::{AtomicU64, Ordering as AtomicOrdering};
 use std::sync::Arc;
-use std::collections::{ HashSet};
 
 #[derive(Debug)]
 pub struct Node {
@@ -27,8 +27,8 @@ impl Node {
         }
     }
 
-    pub fn siblings(&self) -> &HashSet<Arc<Node>> {
-        &self.siblings
+    pub fn siblings(&self) -> HashSet<Arc<Node>> {
+        self.siblings.clone()
     }
 
     pub fn cost(&self) -> u64 {
@@ -39,12 +39,14 @@ impl Node {
         self.position.clone()
     }
 
-    pub fn add_sibling(&mut self, other: &Self) -> bool {
-        self.siblings.insert(Arc::new(other.clone()))
+    pub fn add_sibling(&mut self, other: &mut Self) {
+        self.siblings.insert(Arc::new(other.clone()));
+        other.siblings.insert(Arc::new(self.clone()));
     }
 
-    pub fn remove_sibling(&mut self, other: &Self) -> bool {
-        self.siblings.remove(other)
+    pub fn remove_sibling(&mut self, other: &mut Self) {
+        self.siblings.remove(other);
+        other.siblings.remove(self);
     }
 }
 
@@ -103,12 +105,16 @@ impl PartialEq for Node {
 
     #[inline(always)]
     fn eq(&self, other: &Self) -> bool {
-        self.position.x == other.position.x && self.position.y == other.position.y && self.position.z == other.position.z
+        self.position.x == other.position.x
+            && self.position.y == other.position.y
+            && self.position.z == other.position.z
     }
 
     #[inline(always)]
     fn ne(&self, other: &Self) -> bool {
-        self.position.x != other.position.x && self.position.y != other.position.y && self.position.z != other.position.z
+        self.position.x != other.position.x
+            && self.position.y != other.position.y
+            && self.position.z != other.position.z
     }
 }
 
